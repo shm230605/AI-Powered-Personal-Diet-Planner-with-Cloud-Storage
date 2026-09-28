@@ -31,8 +31,6 @@ flowchart LR
     FE --> DASH[Protected dashboard]
 ```
 
-A signed-in browser sends its bearer token to the API. The API derives the account ID from the verified token, validates profile changes, generates and saves plans under that owner, and writes images under user-scoped object keys. The database contains structured records and object metadata; storage contains file bytes. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full data flow, schema, cloud-concept mapping, deployment options, and scaling notes. See [docs/PROJECT_REPORT.md](docs/PROJECT_REPORT.md) for the course-report material, test matrix, screenshot checklist, and interview preparation.
-
 ## 📊 Structure
 
 ```text

@@ -1,8 +1,6 @@
-# Goodplate: AI-Powered Personal Diet Planner with Cloud Storage
+# 🍽️ Goodplate: AI-Powered Personal Diet Planner with Cloud Storage
 
 A full-stack cloud-computing course project for creating general-wellness meal examples, saving private plans, and storing demo meal images. It runs locally with SQLite and local files; PostgreSQL and S3-compatible object storage can be enabled with environment variables. Plan generation works without AI credentials and falls back to a deterministic rules engine.
-
-> **Wellness and privacy:** Suggestions and nutrition values are educational examples, not medical or clinical advice. Use synthetic accounts and profile data only. Do not use this application for diagnosis, treatment, prescribed diets, or allergy safety.
 
 ## At a glance
 
@@ -35,7 +33,7 @@ flowchart LR
 
 A signed-in browser sends its bearer token to the API. The API derives the account ID from the verified token, validates profile changes, generates and saves plans under that owner, and writes images under user-scoped object keys. The database contains structured records and object metadata; storage contains file bytes. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full data flow, schema, cloud-concept mapping, deployment options, and scaling notes. See [docs/PROJECT_REPORT.md](docs/PROJECT_REPORT.md) for the course-report material, test matrix, screenshot checklist, and interview preparation.
 
-## Structure
+## 📊 Structure
 
 ```text
 .
@@ -53,42 +51,6 @@ A signed-in browser sends its bearer token to the API. The API derives the accou
 └── README.md
 ```
 
-## Run locally
-
-Prerequisites: Node.js 20.19+ or 22.12+, Python 3.11+, and Git. No cloud account or paid AI key is required for the local demo.
-
-**Terminal 1, API (PowerShell):**
-
-```powershell
-cd backend
-py -3 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-Copy-Item .env.example .env
-python -m uvicorn app.main:app --reload --port 8000
-```
-
-If environment activation is blocked, run `.venv\Scripts\python.exe -m pip install -r requirements.txt` and `.venv\Scripts\python.exe -m uvicorn app.main:app --reload --port 8000` instead.
-
-**Terminal 2, frontend (project root):**
-
-```powershell
-npm install
-Copy-Item .env.example .env.local
-npm run dev
-```
-
-Open <http://localhost:5173>. The API health check is <http://localhost:8000/api/health> and interactive API documentation is <http://localhost:8000/docs>. Register a synthetic account, save the profile, generate a plan, export it, and try the private image library. Local records and files remain on your machine under `backend/data/` when following these commands.
-
-**Verification:**
-
-```powershell
-npm run lint
-npm run build
-py -3 -m unittest discover -s backend/tests -t backend -v
-```
-
-The API tests use temporary SQLite and file storage; they do not contact live cloud services. The project uses standard-library `unittest`, not pytest.
 
 ## Configuration
 
@@ -127,35 +89,11 @@ Protected routes require `Authorization: Bearer <access_token>`.
 | `GET` | `/api/files/{id}/download` | Download an owned image |
 | `DELETE` | `/api/files/{id}` | Delete an owned image |
 
-## Deployment
-
-The API is container-ready and accepts a managed PostgreSQL URL and private S3-compatible storage settings. A student-friendly layout is a static Vite host (Cloudflare Pages or Firebase Hosting), a FastAPI container (Cloud Run or another container service), managed PostgreSQL, and private object storage such as R2. Provider free tiers and quotas change; check current pricing and persistence limits.
-
-1. Deploy the root `Dockerfile`; it installs `backend/requirements-cloud.txt` (S3 SDK and PostgreSQL driver).
-2. Set `DATABASE_URL`, `JWT_SECRET`, `APP_ENV=production`, `FRONTEND_ORIGINS`, and server-side object-storage variables in the API host.
-3. Set the frontend build variable `VITE_API_BASE_URL=https://<api-host>/api`; build with `npm run build` and publish `dist/`.
-4. Restrict CORS to the exact site origin, use HTTPS, private buckets, backups, health checks, and host logs.
-5. Test registration, user isolation, plan generation, upload, and download using synthetic accounts.
-
-An AWS mapping is Amplify/CloudFront, App Runner or ECS, RDS PostgreSQL, private S3, Cognito (after adapting API token verification), Secrets Manager, and CloudWatch. Azure and Google Cloud equivalents are documented in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#deployment-options). This repository does not claim that cloud resources have already been deployed.
-
-## Security and limitations
+## 🔐Security and limitations
 
 The API uses salted PBKDF2-HMAC-SHA256 password hashes, signed expiring bearer tokens, input validation, owner-scoped database queries, restricted image type/signature/size checks, configurable CORS, and server-side secrets. This learning implementation is not production identity software. Logout clears the browser token but cannot revoke a copied stateless token before expiry. Public deployment needs managed OIDC or token revocation/rotation, rate limiting, account recovery, migrations, redacted logs, backups/restore tests, monitoring, and abuse controls.
 
 The sample meal catalog and calorie/macro numbers are illustrative and incomplete. Allergy exclusions are not a guarantee against cross-contamination. No daily intake tracker, coach role, verified food database, clinical validation, live cloud deployment, or automatic backup system is included.
 
-## GitHub publishing
-
-```powershell
-git init
-git add .
-git commit -m "Build cloud-ready personal meal planner"
-git branch -M main
-git remote add origin https://github.com/<your-user>/AI-Powered-Personal-Diet-Planner-Cloud.git
-git push -u origin main
-```
-
-Suggested description: `Cloud-ready personal wellness meal planner demonstrating authentication, REST APIs, user-isolated data, database persistence, and object storage.` Suggested topics: `cloud-computing`, `fastapi`, `react`, `rest-api`, `object-storage`, `postgresql`, `ai-fallback`, `full-stack`.
-
-A live project link requires both the deployed frontend and its API. GitHub Pages can host only the frontend static files. This workspace has no GitHub remote configured, so a repository URL and authenticated GitHub session are still needed to push. Capture genuine, sanitized evidence in `screenshots/README.md`; do not publish secrets or claim a cloud deployment you have not performed.
+## 👨‍💻 Author :
+Shresthaa Maiti

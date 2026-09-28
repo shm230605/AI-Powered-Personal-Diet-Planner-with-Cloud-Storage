@@ -1,0 +1,11 @@
+.git
+.github
+node_modules
+dist
+.venv
+backend/.venv
+backend/.env
+backend/data
+screenshots
+*.db
+*.sqlite3
